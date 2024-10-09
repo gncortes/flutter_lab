@@ -12,7 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Exemplos de FittedBox',
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Labs',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

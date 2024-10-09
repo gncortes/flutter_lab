@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 const double _minValue = 1;
-const double _maxValue = 1000000000000;
+const double _maxValue = 1000000000000000000;
 
 class ValueRangeCard extends StatefulWidget {
   const ValueRangeCard({super.key});
@@ -13,6 +13,7 @@ class ValueRangeCard extends StatefulWidget {
 
 class _ValueRangeCardState extends State<ValueRangeCard> {
   double _currentValue = 1;
+  double _displayValue = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +22,22 @@ class _ValueRangeCardState extends State<ValueRangeCard> {
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Valor Ajustável',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Valor Atual',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  'Quantidade de dígitos: ${_currentValue.digitCount}',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w400),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             FittedBox(
@@ -35,8 +47,8 @@ class _ValueRangeCardState extends State<ValueRangeCard> {
                   return ScaleTransition(scale: animation, child: child);
                 },
                 child: Text(
-                  _currentValue.toCurrency(),
-                  key: ValueKey<double>(_currentValue),
+                  _displayValue.toCurrency(),
+                  key: ValueKey<double>(_displayValue),
                   style: const TextStyle(
                     fontSize: 32,
                     color: Colors.blue,
@@ -56,6 +68,11 @@ class _ValueRangeCardState extends State<ValueRangeCard> {
                   _currentValue = values.end;
                 });
               },
+              onChangeEnd: (value) {
+                setState(() {
+                  _displayValue = value.end;
+                });
+              },
             ),
           ],
         ),
@@ -64,7 +81,7 @@ class _ValueRangeCardState extends State<ValueRangeCard> {
   }
 }
 
-extension CurrencyExtension on double {
+extension UtilsDoubleExtension on double {
   String toCurrency() {
     final NumberFormat formatter = NumberFormat.currency(
       locale: 'pt_BR',
@@ -72,5 +89,10 @@ extension CurrencyExtension on double {
       decimalDigits: 2,
     );
     return formatter.format(this);
+  }
+
+  int get digitCount {
+    String valueStr = toStringAsFixed(0).replaceAll(RegExp(r'[^0-9]'), '');
+    return valueStr.length;
   }
 }

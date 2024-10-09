@@ -12,10 +12,8 @@ class HomePage extends StatelessWidget {
       body: ListView(
         children: [
           ListTile(
-            leading: const Icon(Icons.fit_screen, color: Colors.blue),
             title: const Text('Exemplos de FittedBox'),
-            subtitle: const Text(
-                'Veja como usar o FittedBox em diferentes situações.'),
+            subtitle: const Text('Veja como usar o FittedBox'),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
               Navigator.pushNamed(context, '/fittedBoxExamples');
