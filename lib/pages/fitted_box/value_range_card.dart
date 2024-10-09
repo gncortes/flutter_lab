@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_labs/utils/context.dart';
 import 'package:intl/intl.dart';
 
 const double _minExponent = 0;
@@ -29,20 +30,23 @@ class _ValueRangeCardState extends State<ValueRangeCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(right: 4),
+                Padding(
+                  padding: const EdgeInsets.only(right: 4),
                   child: Text(
-                    'Valor',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    context.tr.fittedBoxValueLabel,
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Flexible(
                   child: FittedBox(
                     child: Text.rich(
                       TextSpan(
-                        text: 'Quantidade de dígitos: ',
+                        text: context.tr.fittedBoxDigitCountLabel,
                         style: const TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w400),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
                         children: [
                           TextSpan(
                             text: '${_displayValue.digitCount}',
@@ -63,7 +67,7 @@ class _ValueRangeCardState extends State<ValueRangeCard> {
                   return ScaleTransition(scale: animation, child: child);
                 },
                 child: Text(
-                  _displayValue.toCurrency(),
+                  _displayValue.toCurrency(context),
                   key: ValueKey<double>(_displayValue),
                   style: const TextStyle(
                     fontSize: 32,
@@ -99,10 +103,11 @@ class _ValueRangeCardState extends State<ValueRangeCard> {
 }
 
 extension CurrencyExtension on double {
-  String toCurrency() {
+  String toCurrency(BuildContext context) {
+    final locale = Localizations.localeOf(context).toString();
     final NumberFormat formatter = NumberFormat.currency(
-      locale: 'pt_BR',
-      symbol: 'R\$',
+      locale: locale,
+      symbol: NumberFormat.simpleCurrency(locale: locale).currencySymbol,
       decimalDigits: 2,
     );
     return formatter.format(this);

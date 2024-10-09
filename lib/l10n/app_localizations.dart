@@ -130,6 +130,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'For more information, check the official Flutter documentation on FittedBox:'**
   String get fittedBoxExamplesMoreInfo;
+
+  /// No description provided for @fittedBoxValueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get fittedBoxValueLabel;
+
+  /// No description provided for @fittedBoxDigitCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Digit count: '**
+  String get fittedBoxDigitCountLabel;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

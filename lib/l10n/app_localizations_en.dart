@@ -23,4 +23,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fittedBoxExamplesMoreInfo => 'For more information, check the official Flutter documentation on FittedBox:';
+
+  @override
+  String get fittedBoxValueLabel => 'Value';
+
+  @override
+  String get fittedBoxDigitCountLabel => 'Digit count: ';
 }
