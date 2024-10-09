@@ -29,14 +29,29 @@ class _ValueRangeCardState extends State<ValueRangeCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Valor Ajustável',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                const Padding(
+                  padding: EdgeInsets.only(right: 4),
+                  child: Text(
+                    'Valor',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                 ),
-                Text(
-                  'Quantidade de dígitos: ${_displayValue.digitCount}',
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w400),
+                Flexible(
+                  child: FittedBox(
+                    child: Text.rich(
+                      TextSpan(
+                        text: 'Quantidade de dígitos: ',
+                        style: const TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w400),
+                        children: [
+                          TextSpan(
+                            text: '${_displayValue.digitCount}',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
