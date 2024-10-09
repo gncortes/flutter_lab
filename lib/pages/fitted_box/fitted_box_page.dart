@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_labs/utils/context.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'value_range_card.dart';
 
@@ -9,34 +10,27 @@ class FittedBoxExamplesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Exemplos de FittedBox'),
+        title: Text(context.tr.fittedBoxExamplesTitle),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Text(
-              'O widget `FittedBox` é usado para redimensionar seu filho de acordo com as '
-              'dimensões disponíveis, mantendo a proporção do conteúdo. Por padrão, ele utiliza '
-              '`BoxFit.contain`, o que faz com que o conteúdo seja redimensionado para caber '
-              'dentro do espaço disponível sem perder a proporção. '
-              'No entanto, também existem outras opções de ajuste, como `BoxFit.cover`, '
-              'que podem ser configuradas conforme a necessidade. O `FittedBox` é especialmente útil '
-              'para garantir que imagens, textos ou outros widgets se adaptem bem a diferentes '
-              'tamanhos de tela, evitando que sejam cortados ou esticados de forma desproporcional.',
-              style: TextStyle(fontSize: 16),
+              context.tr.fittedBoxExamplesDescription,
+              style: const TextStyle(fontSize: 16),
             ),
           ),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 8.0),
             child: ValueRangeCard(),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Text(
-              'Para mais informações, confira a documentação oficial do Flutter sobre o FittedBox:',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              context.tr.fittedBoxExamplesMoreInfo,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
           GestureDetector(

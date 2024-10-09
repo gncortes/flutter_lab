@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_labs/utils/context.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -7,13 +8,13 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tela Inicial'),
+        title: Text(context.tr.homeTitle),
       ),
       body: ListView(
         children: [
           ListTile(
-            title: const Text('Exemplos de FittedBox'),
-            subtitle: const Text('Veja como usar o FittedBox'),
+            title: Text(context.tr.homeFittedBoxExamplesTitle),
+            subtitle: Text(context.tr.homeFittedBoxExamplesSubtitle),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
               Navigator.pushNamed(context, '/fittedBoxExamples');
