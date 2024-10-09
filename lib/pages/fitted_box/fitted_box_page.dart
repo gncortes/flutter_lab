@@ -17,13 +17,14 @@ class FittedBoxExamplesPage extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 8.0),
             child: Text(
-              'O widget FittedBox é usado para redimensionar seu filho de acordo '
-              'com as dimensões disponíveis. Ele mantém a proporção do conteúdo '
-              'e ajusta o tamanho de forma automática, de acordo com a configuração '
-              'do parâmetro "fit" escolhido, como BoxFit.contain ou BoxFit.cover. '
-              'Isso é útil para garantir que imagens, textos ou outros widgets se adaptem '
-              'bem a diferentes tamanhos de tela, sem serem cortados ou esticados '
-              'de maneira desproporcional.',
+              'O widget `FittedBox` é usado para redimensionar seu filho de acordo com as '
+              'dimensões disponíveis, mantendo a proporção do conteúdo. Por padrão, ele utiliza '
+              '`BoxFit.contain`, o que faz com que o conteúdo seja redimensionado para caber '
+              'dentro do espaço disponível sem perder a proporção. '
+              'No entanto, também existem outras opções de ajuste, como `BoxFit.cover`, '
+              'que podem ser configuradas conforme a necessidade. O `FittedBox` é especialmente útil '
+              'para garantir que imagens, textos ou outros widgets se adaptem bem a diferentes '
+              'tamanhos de tela, evitando que sejam cortados ou esticados de forma desproporcional.',
               style: TextStyle(fontSize: 16),
             ),
           ),
