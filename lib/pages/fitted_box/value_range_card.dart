@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-const double _minValue = 1;
-const double _maxValue = 1000000000000000000;
+const double _minExponent = 0;
+const double _maxExponent = 17;
 
 class ValueRangeCard extends StatefulWidget {
   const ValueRangeCard({super.key});
@@ -12,7 +12,8 @@ class ValueRangeCard extends StatefulWidget {
 }
 
 class _ValueRangeCardState extends State<ValueRangeCard> {
-  double _currentValue = 1;
+  double _currentExponent = 0;
+  final double _baseValue = 1;
   double _displayValue = 1;
 
   @override
@@ -29,11 +30,11 @@ class _ValueRangeCardState extends State<ValueRangeCard> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  'Valor Atual',
+                  'Valor Ajustável',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  'Quantidade de dígitos: ${_currentValue.digitCount}',
+                  'Quantidade de dígitos: ${_displayValue.digitCount}',
                   style: const TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w400),
                 ),
@@ -59,18 +60,19 @@ class _ValueRangeCardState extends State<ValueRangeCard> {
             ),
             const SizedBox(height: 16),
             RangeSlider(
-              values: RangeValues(_minValue, _currentValue),
-              min: _minValue,
-              max: _maxValue,
-              divisions: 10000,
+              values: RangeValues(_minExponent, _currentExponent),
+              min: _minExponent,
+              max: _maxExponent,
+              divisions: _maxExponent.toInt(),
+              labels: RangeLabels(
+                '10^${_minExponent.toInt()}',
+                '10^${_currentExponent.toInt()}',
+              ),
               onChanged: (values) {
                 setState(() {
-                  _currentValue = values.end;
-                });
-              },
-              onChangeEnd: (value) {
-                setState(() {
-                  _displayValue = value.end;
+                  _currentExponent = values.end;
+                  _displayValue =
+                      _baseValue * pow(10, _currentExponent.toInt());
                 });
               },
             ),
@@ -81,7 +83,7 @@ class _ValueRangeCardState extends State<ValueRangeCard> {
   }
 }
 
-extension UtilsDoubleExtension on double {
+extension CurrencyExtension on double {
   String toCurrency() {
     final NumberFormat formatter = NumberFormat.currency(
       locale: 'pt_BR',
@@ -90,9 +92,15 @@ extension UtilsDoubleExtension on double {
     );
     return formatter.format(this);
   }
+}
 
+extension DigitCountExtension on double {
   int get digitCount {
     String valueStr = toStringAsFixed(0).replaceAll(RegExp(r'[^0-9]'), '');
     return valueStr.length;
   }
+}
+
+double pow(double base, int exponent) {
+  return base * List.generate(exponent, (_) => 10.0).reduce((a, b) => a * b);
 }
