@@ -47,3 +47,4 @@ macos/
 **/goldens/
 goldens/
 test/goldens/
+build/
