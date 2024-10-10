@@ -23,9 +23,12 @@ void main() {
         );
         await tester.pumpAndSettle();
 
+        final deviceNamePath =
+            '${device.name}_${device.size.width.toInt()}x${device.size.height.toInt()}';
+
         await screenMatchesGolden(
           tester,
-          '${device.name}_${device.size.width.toInt()}x${device.size.height.toInt()}/initial_state',
+          '$deviceNamePath/1initial_state',
         );
 
         final sliderFinder = find.byType(RangeSlider);
@@ -38,7 +41,7 @@ void main() {
 
         await screenMatchesGolden(
           tester,
-          '${device.name}_${device.size.width.toInt()}x${device.size.height.toInt()}/mid_state',
+          '$deviceNamePath/2mid_state',
         );
 
         await tester.drag(
@@ -49,7 +52,7 @@ void main() {
 
         await screenMatchesGolden(
           tester,
-          '${device.name}_${device.size.width.toInt()}x${device.size.height.toInt()}/final_state',
+          '$deviceNamePath/3final_state',
         );
       }
     });
