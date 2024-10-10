@@ -16,31 +16,40 @@ void main() {
       final devices = getTestDevices();
 
       for (var device in devices) {
-        // Define o tamanho da tela para o dispositivo atual.
         await tester.binding.setSurfaceSize(device.size);
-
-        // Garante que o widget esteja no estado inicial.
         await tester.pumpWidgetBuilder(
           createTestableWidget(ValueRangeCard(key: UniqueKey())),
           surfaceSize: device.size,
         );
         await tester.pumpAndSettle();
 
-        // Captura o estado inicial do widget.
         await screenMatchesGolden(
           tester,
-          'goldens/${device.name}_${device.size.width.toInt()}x${device.size.height.toInt()}/initial_state',
+          '${device.name}_${device.size.width.toInt()}x${device.size.height.toInt()}/initial_state',
         );
 
-        // Ajusta o slider para simular uma mudança no estado.
         final sliderFinder = find.byType(RangeSlider);
-        await tester.drag(sliderFinder, const Offset(100, 0));
+        final sliderWidth = tester.getSize(sliderFinder).width;
+        final sliderRect = tester.getRect(sliderFinder);
+
+        await tester.tapAt(Offset(
+            sliderRect.left + sliderRect.width / 2, sliderRect.center.dy));
         await tester.pumpAndSettle();
 
-        // Captura o estado final do widget após a interação.
         await screenMatchesGolden(
           tester,
-          'goldens/${device.name}_${device.size.width.toInt()}x${device.size.height.toInt()}/final_state',
+          '${device.name}_${device.size.width.toInt()}x${device.size.height.toInt()}/mid_state',
+        );
+
+        await tester.drag(
+          sliderFinder,
+          Offset(sliderWidth / 2, 0),
+        );
+        await tester.pumpAndSettle();
+
+        await screenMatchesGolden(
+          tester,
+          '${device.name}_${device.size.width.toInt()}x${device.size.height.toInt()}/final_state',
         );
       }
     });
