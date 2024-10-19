@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
             },
           ),
           const SizedBox(height: 20),
-          BitcoinLoadingIndicator(),
+          const BitcoinLoadingIndicator(),
         ],
       ),
     );
@@ -34,7 +34,7 @@ class BitcoinLoadingIndicator extends StatefulWidget {
   const BitcoinLoadingIndicator({super.key});
 
   @override
-  _BitcoinLoadingIndicatorState createState() =>
+  State<BitcoinLoadingIndicator> createState() =>
       _BitcoinLoadingIndicatorState();
 }
 
