@@ -1,20 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-const loopLenght = 100000;
+const loopLength = 60 * 60;
 
 void logPerformanceResult(String testName, int elapsedTime) {
   final String separator = '-' * 40;
   debugPrint(
-      '$separator\nTest Name: $testName\nTempo total: $elapsedTime microssegundos\n$separator');
+      '$separator\nTest Name: $testName\nDuration: $elapsedTime elapsedMilliseconds\n$separator');
 }
 
 class ColorfulBox extends StatelessWidget {
-  final bool isRed;
+  final int colorCode;
   final Color color;
 
-  const ColorfulBox({super.key, required this.isRed})
-      : color = isRed ? Colors.red : Colors.blue;
+  ColorfulBox({super.key, required this.colorCode})
+      : color = (() {
+          switch (colorCode) {
+            case 1:
+              return Colors.red;
+            case 2:
+              return Colors.green;
+            case 3:
+              return Colors.blue;
+            case 4:
+              return Colors.yellow;
+            case 5:
+              return Colors.purple;
+            default:
+              return Colors.grey;
+          }
+        })();
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +42,35 @@ class ColorfulBox extends StatelessWidget {
 }
 
 class ColorfulBoxWithBuildColor extends StatelessWidget {
-  final bool isRed;
+  final int colorCode;
 
-  const ColorfulBoxWithBuildColor({super.key, required this.isRed});
+  const ColorfulBoxWithBuildColor({super.key, required this.colorCode});
 
   @override
   Widget build(BuildContext context) {
-    final color = isRed ? Colors.red : Colors.blue;
+    final Color color;
+
+    switch (colorCode) {
+      case 1:
+        color = Colors.red;
+        break;
+      case 2:
+        color = Colors.green;
+        break;
+      case 3:
+        color = Colors.blue;
+        break;
+      case 4:
+        color = Colors.yellow;
+        break;
+      case 5:
+        color = Colors.purple;
+        break;
+      default:
+        color = Colors.grey;
+        break;
+    }
+
     return Container(
       width: 100,
       height: 100,
@@ -43,8 +80,29 @@ class ColorfulBoxWithBuildColor extends StatelessWidget {
 }
 
 class ColorfulBoxWithMethod {
-  Widget buildColorfulBox(bool isRed) {
-    final color = isRed ? Colors.red : Colors.blue;
+  Widget buildColorfulBox(int colorCode) {
+    final Color color;
+
+    switch (colorCode) {
+      case 1:
+        color = Colors.red;
+        break;
+      case 2:
+        color = Colors.green;
+        break;
+      case 3:
+        color = Colors.blue;
+        break;
+      case 4:
+        color = Colors.yellow;
+        break;
+      case 5:
+        color = Colors.purple;
+        break;
+      default:
+        color = Colors.grey;
+        break;
+    }
     return Container(
       width: 100,
       height: 100,
@@ -56,24 +114,28 @@ class ColorfulBoxWithMethod {
 void main() {
   testWidgets('Performance test: Color via constructor',
       (WidgetTester tester) async {
-    bool isRed = true;
+    int colorCode = 1;
 
     // Ignore the time of the first build
     await tester.pumpWidget(MaterialApp(
       home: StatefulBuilder(
         builder: (context, setState) {
-          return ColorfulBox(isRed: isRed);
+          return ColorfulBox(colorCode: colorCode);
         },
       ),
     ));
 
     // Now, measure the time for multiple reconstructions
     final stopwatch = Stopwatch()..start();
-    for (int i = 0; i < loopLenght; i++) {
+    for (int i = 0; i < loopLength; i++) {
+      // colorCode = (i % 5) + 1; // Alterna entre as cores de 1 a 5
       await tester.pumpWidget(MaterialApp(
         home: StatefulBuilder(
           builder: (context, setState) {
-            return ColorfulBox(isRed: isRed);
+            return ColorfulBox(
+              colorCode: colorCode,
+              key: const Key('comkey'),
+            );
           },
         ),
       ));
@@ -82,29 +144,30 @@ void main() {
 
     // Usando a função para logar o resultado
     logPerformanceResult(
-        'Color via constructor', stopwatch.elapsedMicroseconds);
+        'Color via constructor', stopwatch.elapsedMilliseconds);
   });
 
   testWidgets('Performance test: Color inside build',
       (WidgetTester tester) async {
-    bool isRed = true;
+    int colorCode = 1;
 
     // Ignore the time of the first build
     await tester.pumpWidget(MaterialApp(
       home: StatefulBuilder(
         builder: (context, setState) {
-          return ColorfulBoxWithBuildColor(isRed: isRed);
+          return ColorfulBoxWithBuildColor(colorCode: colorCode);
         },
       ),
     ));
 
     // Now, measure the time for multiple reconstructions
     final stopwatch = Stopwatch()..start();
-    for (int i = 0; i < loopLenght; i++) {
+    for (int i = 0; i < loopLength; i++) {
+      // colorCode = (i % 5) + 1; // Alterna entre as cores de 1 a 5
       await tester.pumpWidget(MaterialApp(
         home: StatefulBuilder(
           builder: (context, setState) {
-            return ColorfulBoxWithBuildColor(isRed: isRed);
+            return ColorfulBoxWithBuildColor(colorCode: colorCode);
           },
         ),
       ));
@@ -112,30 +175,31 @@ void main() {
     stopwatch.stop();
 
     // Usando a função para logar o resultado
-    logPerformanceResult('Color inside build', stopwatch.elapsedMicroseconds);
+    logPerformanceResult('Color inside build', stopwatch.elapsedMilliseconds);
   });
 
   testWidgets('Performance test: Color built via method',
       (WidgetTester tester) async {
-    bool isRed = true;
+    int colorCode = 1;
     final instance = ColorfulBoxWithMethod();
 
     // Ignore the time of the first build
     await tester.pumpWidget(MaterialApp(
       home: StatefulBuilder(
         builder: (context, setState) {
-          return instance.buildColorfulBox(isRed);
+          return instance.buildColorfulBox(colorCode);
         },
       ),
     ));
 
     // Now, measure the time for multiple reconstructions
     final stopwatch = Stopwatch()..start();
-    for (int i = 0; i < loopLenght; i++) {
+    for (int i = 0; i < loopLength; i++) {
+      // colorCode = (i % 5) + 1; // Alterna entre as cores de 1 a 5
       await tester.pumpWidget(MaterialApp(
         home: StatefulBuilder(
           builder: (context, setState) {
-            return instance.buildColorfulBox(isRed);
+            return instance.buildColorfulBox(colorCode);
           },
         ),
       ));
@@ -144,6 +208,40 @@ void main() {
 
     // Usando a função para logar o resultado
     logPerformanceResult(
-        'Color built via method', stopwatch.elapsedMicroseconds);
+        'Color built via method', stopwatch.elapsedMilliseconds);
+  });
+
+  testWidgets('Performance test: Color via constructor',
+      (WidgetTester tester) async {
+    int colorCode = 1;
+    int totalDuration = 0;
+    const repetitions = 10;
+
+    for (int r = 0; r < repetitions; r++) {
+      await tester.pumpWidget(MaterialApp(
+        home: StatefulBuilder(
+          builder: (context, setState) {
+            return ColorfulBox(colorCode: colorCode);
+          },
+        ),
+      ));
+
+      final stopwatch = Stopwatch()..start();
+      for (int i = 0; i < loopLength; i++) {
+        colorCode = (i % 5) + 1;
+        await tester.pumpWidget(MaterialApp(
+          home: StatefulBuilder(
+            builder: (context, setState) {
+              return ColorfulBox(colorCode: colorCode);
+            },
+          ),
+        ));
+      }
+      stopwatch.stop();
+      totalDuration += stopwatch.elapsedMilliseconds;
+    }
+
+    logPerformanceResult(
+        'Color via constructor in loop', totalDuration ~/ repetitions);
   });
 }
