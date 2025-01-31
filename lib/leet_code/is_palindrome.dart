@@ -21,16 +21,18 @@ class Solution {
   }
 
   bool isPalindromeWithoutStringMethod(int x) {
-    final logBase10 = log(10) / log(x);
-    int length = logBase10.floor() + 1;
+    if (x.isNegative) return false;
+    if (x < 10) return true;
 
-    String newValue = '';
+    int length = (log(x) / log(10)).floor() + 1;
 
-    for (int index = length; index >= 0; index--) {
-      double power = pow(10, length - index).toDouble();
-      newValue += ((x / power) % 10).toString();
+    for (int i = 0; i < length ~/ 2; i++) {
+      int firstDigit = (x ~/ pow(10, length - i - 1).toInt()) % 10;
+      int lastDigit = (x ~/ pow(10, i).toInt()) % 10;
+
+      if (firstDigit != lastDigit) return false;
     }
 
-    return x == int.parse(newValue);
+    return true;
   }
 }
