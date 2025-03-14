@@ -2,7 +2,7 @@ import 'package:flutter_labs/leet_code/is_palindrome.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  final solution = Solution();
+  final solution = IsPalindrome();
   group('isPalindromeWithoutStringMethod tests', () {
     test('Positive case: palindrome number', () {
       expect(solution.isPalindromeWithoutStringMethod(121), isTrue);

@@ -1,6 +1,6 @@
 import 'dart:math';
 
-class Solution {
+class IsPalindrome {
   bool isPalindromeWithStringMethod(int x) {
     final value = x.toString();
 
